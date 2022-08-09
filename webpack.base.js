@@ -4,6 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const fs = require("fs");
+const { VueLoaderPlugin } = require("vue-loader");
 
 const browserslistrc = (() => {
   const content = fs.readFileSync(
@@ -35,13 +36,26 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "theme-chalk/[name].css",
     }),
+    // vue
+    new VueLoaderPlugin(),
     // 复制 umd main.js 文件，to 会根据output定位
     // new CopyPlugin({
     //   patterns: [{ from: "./main.js", to: "./main.js" }],
     // }),
   ],
+  externals: [
+    {
+      vue: {
+        root: "Vue",
+        commonjs: "vue",
+        commonjs2: "vue",
+        amd: "vue",
+      },
+    },
+    "lodash",
+  ], // 三方库中的引用不要打包进来
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx"],
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".vue"],
   },
   module: {
     rules: [
@@ -62,29 +76,14 @@ module.exports = {
         },
       },
       {
+        test: /\.vue$/,
+        loader: "vue-loader",
+      },
+      {
         test: /\.(jsx?|tsx?)$/i,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  useBuiltIns: "usage",
-                  corejs: "3",
-                  targets: { browsers: browserslistrc },
-                },
-              ],
-              [
-                "@babel/preset-react",
-                {
-                  runtime: "automatic", // classic automatic
-                },
-              ],
-              "@babel/preset-typescript",
-            ],
-          },
         },
       },
       {
