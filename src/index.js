@@ -1,10 +1,10 @@
-import myButton from "./components/button/index.js";
-import mySelect from "./components/select/index.js";
+import button from "./components/button/index.js";
+import select from "./components/select/index.js";
 
 function install(Vue) {
   //外部的Vue.use(MyLib)会执行该方法，完成组件的全局注册。
-  Vue.use(myButton);
-  Vue.use(mySelect);
+  Vue.use(button);
+  Vue.use(select);
 }
 
 if (window && window.Vue) {
@@ -14,6 +14,6 @@ if (window && window.Vue) {
 
 export default {
   install,
-  myButton,
-  mySelect,
+  button,
+  select,
 };

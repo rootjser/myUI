@@ -1,8 +1,3 @@
-<template>
-  <div>
-    <button>保存</button>
-  </div>
-</template>
 
 <script>
 export default {
@@ -10,6 +5,13 @@ export default {
     onClick() {
       alert("11");
     },
+  },
+  render() {
+    return (
+      <div>
+        <button>保存</button>
+      </div>
+    );
   },
 };
 </script>
