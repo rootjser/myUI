@@ -12,4 +12,5 @@ if (window && window.Vue) {
   Vue.use(install);
 }
 
-export { install, button, select };
+export default { install };
+export { button, select };
